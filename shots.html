@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>Roonburg Shots</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --card: rgba(0, 0, 0, 0.65);
+      --card-strong: rgba(0, 0, 0, 0.85);
+      --border: rgba(255, 255, 255, 0.15);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.75);
+      --accent: #ff003c;
+      --neon-rot: #ff003c;
+      --neon-gruen: #39ff14;
+      --neon-lila: #b026ff;
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 16px 38px rgba(0, 0, 0, 0.6);
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      /* Die schwarze Wand ist hier entfernt */
+      background: transparent;
+      color: var(--text);
+    }
+
+    body {
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Dein Hintergrundbild */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(5, 5, 5, 0.75) 0%, rgba(5, 5, 5, 0.4) 100%),
+        url("Shots/backround.png");
+      background-size: cover;
+      background-position: center bottom;
+      z-index: -3;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255, 0, 60, 0.15), transparent 30%),
+        radial-gradient(circle at 86% 20%, rgba(176, 38, 255, 0.1), transparent 28%),
+        radial-gradient(circle at 50% 92%, rgba(57, 255, 20, 0.1), transparent 38%);
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    .page {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: 20px 14px 40px;
+    }
+
+    /* HERO BEREICH */
+    .hero {
+      text-align: center;
+      padding: 30px 20px;
+      margin-bottom: 24px;
+      background: rgba(15, 15, 15, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* NEUES LOGO (Ohne Kreis) */
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .logo-mark {
+      width: 100%;
+      max-width: 240px; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo-mark img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3rem, 14vw, 4.5rem);
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+      color: #fff;
+      text-shadow: 
+        0 0 10px rgba(255, 0, 60, 0.5),
+        0 0 20px rgba(255, 0, 60, 0.3),
+        0 0 40px rgba(255, 0, 60, 0.2);
+    }
+
+    .intro {
+      margin: 16px auto 0;
+      max-width: 400px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .top-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin: 0 0 24px;
+    }
+
+    .random-btn,
+    .back-btn {
+      width: 100%;
+      border-radius: 999px;
+      padding: 16px 20px;
+      font-size: 1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #fff;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .random-btn:active, .back-btn:active {
+      transform: scale(0.97);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.6); }
+      70% { box-shadow: 0 0 0 15px rgba(255, 0, 60, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0); }
+    }
+
+    .random-btn {
+      background: linear-gradient(135deg, var(--neon-rot), #a00020);
+      border: 1px solid rgba(255, 100, 100, 0.5);
+      animation: pulse 2.5s infinite;
+    }
+
+    .back-btn {
+      background: rgba(25, 25, 25, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    /* FILTER */
+    .filters {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 4px 4px 18px;
+      margin-bottom: 8px;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-btn[data-category="ALL"] { --neon: #ffffff; }
+    .filter-btn[data-category="Sweet/Bitchy"] { --neon: var(--neon-rot); }
+    .filter-btn[data-category="Candy"] { --neon: var(--neon-gruen); }
+    .filter-btn[data-category="Alpha"] { --neon: var(--neon-lila); }
+
+    .filter-btn {
+      flex: 0 0 auto;
+      border: 2px solid var(--neon);
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: rgba(10, 10, 10, 0.6);
+      color: var(--neon);
+      font-size: 0.85rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .filter-btn.active {
+      text-shadow: 0 0 10px var(--neon);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6), 0 0 15px var(--neon), inset 0 0 10px var(--neon);
+      background: rgba(255, 255, 255, 0.1); 
+      transform: translateY(-2px);
+    }
+
+   
+    /* KARTEN */
+    .list {
+      display: grid;
+      gap: 14px;
+      align-items: start; /* Verhindert das leere Mitwachsen der Nachbarkarte */
+    }
+
+    .card {
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .card:active {
+      transform: scale(0.98);
+    }
+
+    .card-toggle {
+      width: 100%;
+      border: 0;
+      padding: 0;
+      display: flex;
+      align-items: stretch;
+      text-align: left;
+      color: var(--text);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .shot-image {
+      width: 100px;
+      min-height: 120px;
+      flex: 0 0 100px;
+      object-fit: cover;
+      background: rgba(255, 255, 255, 0.05);
+      border-right: 1px solid var(--border);
+    }
+
+    .card-body {
+      flex: 1;
+      padding: 16px 20px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    .price {
+      flex: 0 0 auto;
+      font-weight: 900;
+      color: #fff;
+      font-size: 1.1rem;
+      background: rgba(255,255,255,0.15);
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .card-panel {
+      display: none;
+      padding: 0 20px 20px 120px;
+    }
+
+    .card.open .card-panel {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-box {
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px;
+    }
+
+    .panel-box h4 {
+      margin: 0 0 10px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .ingredients {
+      margin: 0 0 14px;
+      padding-left: 20px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    /* MODAL FÜR HANDY OPTIMIERT */
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      padding: 20px 10px;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 50;
+      overflow-y: auto; /* Erlaubt scrollen auf kleinen Displays */
+    }
+
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 420px;
+      margin: auto; /* Zentriert es sicher im Flex-Container */
+      border-radius: 32px;
+      padding: 30px 20px;
+      background: var(--card-strong);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255,0,60,0.2);
+      text-align: center;
+    }
+
+    .modal-kicker {
+      margin: 0 0 12px;
+      background: linear-gradient(90deg, var(--neon-rot), var(--neon-lila));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.85rem;
+      font-weight: 900;
+    }
+
+    .modal-title {
+      margin: 20px 0 24px;
+      font-size: 2.2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+    }
+
+    .modal-actions {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .modal-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 16px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+    }
+
+    .modal-btn.primary {
+      background: var(--accent);
+      box-shadow: 0 0 15px rgba(255, 0, 60, 0.4);
+    }
+
+    .modal-btn.secondary {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* ROULETTE ANIMATION */
+    .roulette-wrapper {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+      margin: 0 auto;
+    }
+
+    .roulette-track {
+      display: flex;
+      height: 100%;
+      width: max-content;
+      transform: translateX(0);
+      -webkit-transform: translateX(0);
+    }
+
+    .roulette-item {
+      width: 95px; /* Etwas breiter, damit Text reinpasst */
+      height: 100%;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      opacity: 0.4;
+      transition: opacity 0.3s;
+    }
+
+    .roulette-item.winner {
+      opacity: 1;
+      background: radial-gradient(circle, rgba(255,0,60,0.3) 0%, transparent 70%);
+    }
+
+    .roulette-item img {
+      width: 50px;
+      height: 65px;
+      object-fit: cover;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .roulette-item span {
+      font-size: 0.65rem;
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: 800;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    /* Der Leucht-Strich in der Mitte */
+    .roulette-selector {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 100%;
+      background: var(--neon-rot);
+      box-shadow: 0 0 15px var(--neon-rot), 0 0 5px #fff;
+      z-index: 2;
+    }
+
+    /* RESPONSIVE ANPASSUNGEN */
+    @media (max-width: 480px) {
+      .logo-mark {
+        max-width: 200px;
+      }
+      .card-panel {
+        padding: 0 16px 16px 16px; /* Text auf Handy unter das Bild rutschen lassen */
+      }
+      .shot-image {
+        width: 90px;
+        flex-basis: 90px;
+      }
+      .card-title {
+        font-size: 1.25rem;
+      }
+      .filters {
+        padding-bottom: 12px;
+      }
+      .roulette-item {
+        width: 85px; /* Etwas kompakter auf dem Handy */
+      }
+    }
+
+    @media (min-width: 720px) {
+      .top-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+      .list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .card-toggle {
+        min-height: 142px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="logo-wrap">
+        <div class="logo-mark">
+          <img
+            src="https://roonburg.de/media/default/assets/config/roonburg/images/roonburg-logo.png"
+            alt="Roonburg Logo"
+          />
+        </div>
+      </div>
+
+      <h1>Shooters</h1>
+      <p class="intro">
+        Sweet, Candy oder voll auf Alpha? Triff deine Wahl und starte die nächste Eskalation.
+      </p>
+    </section>
+
+    <div class="top-actions">
+      <button class="random-btn" id="randomShotBtn" type="button">Zufalls-Shot</button>
+      <a class="back-btn" href="Auswahlseite.html">Zurück zur Auswahl</a>
+    </div>
+
+    <nav class="filters" aria-label="Shot Kategorien">
+      <button class="filter-btn active" type="button" data-category="ALL">Alle</button>
+      <button class="filter-btn" type="button" data-category="Sweet/Bitchy">Sweet&Bitchy</button>
+      <button class="filter-btn" type="button" data-category="Candy">Candy</button>
+      <button class="filter-btn" type="button" data-category="Alpha">Alpha</button>
+    </nav>
+
+    <section class="list" id="shotList" aria-label="Shotliste"></section>
+  </main>
+
+  <div class="modal" id="shotModal" aria-hidden="true">
+    <div class="modal-card">
+      <p class="modal-kicker">Barkeeper's Choice</p>
+      
+      <div class="roulette-wrapper" id="rouletteWrapper" style="display: none;">
+        <div class="roulette-selector"></div>
+        <div class="roulette-track" id="rouletteTrack"></div>
+      </div>
+
+      <h2 class="modal-title" id="modalTitle" style="display: none;">Shot</h2>
+      
+      <div class="modal-actions" id="modalActions" style="display: none;">
+        <button class="modal-btn primary" id="modalOpenShot" type="button">Shot anzeigen</button>
+        <button class="modal-btn secondary" id="modalClose" type="button">Schließen</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const shots = [
+      // ==========================
+      // SWEET/BITCHY SHOTS
+      // ==========================
+      {
+        id: "Pink-Diva",
+        name: "Pink Diva",
+        category: "Sweet/Bitchy",
+        price: "3,50 €",
+        image: "Shots/PinkDiva.webp",
+        ingredients: ["Vodka", "Melonenlikör", "Zitronensaft", "Zuckersirup"],
+        contents: ["alkoholhaltig", "Säurungsmittel", "Farbstoff(e)"]
+      },
+      {
+        id: "Red-Devil",
+        name: "Red Devil",
+        category: "Sweet/Bitchy",
+        price: "3,50 €",
+        image: "Shots/RedDevil.webp",
+        ingredients: ["Baileys", "Amaretto", "Grenadine"],
+        contents: ["alkoholhaltig", "Säurungsmittel", "Farbstoff(e)", "Milch/Laktose"]
+      },
+      {
+        id: "TropicalD",
+        name: "Tropical D",
+        category: "Sweet/Bitchy",
+        price: "3,50 €",
+        image: "Shots/TropicalD.webp",
+        ingredients: ["Feigling Mango", "Limettensaft", "Malibu"],
+        contents: ["alkoholhaltig", "Säurungsmittel"]
+      },
+      {
+        id: "PartyintheUSA",
+        name: "Party in the USA",
+        category: "Sweet/Bitchy",
+        price: "3,50 €",
+        image: "Shots/PartyintheUSA.webp",
+        ingredients: ["Malibu", "Ananassaft"],
+        contents: ["alkoholhaltig"]
+      },
+      {
+        id: "VanillaGoddess",
+        name: "Vanilla Goddess",
+        category: "Sweet/Bitchy",
+        price: "3,50 €",
+        image: "Shots/VanillaGodess.webp",
+        ingredients: ["Likör 43", "Maracujasaft"],
+        contents: ["alkoholhaltig"]
+      },
+      {
+        id: "Maskuliner-Mann",
+        name: "Maskuliner Mann",
+        category: "Sweet/Bitchy",
+        price: "3,50 €",
+        image: "Shots/MaskulinerMann.webp",
+        ingredients: ["Erdbeerlimes", "Sourz Pink Berry"],
+        contents: ["alkoholhaltig", "Farbstoff(e)"]
+      },
+      {
+        id: "67",
+        name: "6-7",
+        category: "Sweet/Bitchy",
+        price: "3,50 €",
+        image: "Shots/67.webp",
+        ingredients: ["Blue Curacao", "Zitronensaft"],
+        contents: ["alkoholhaltig", "Säurungsmittel", "Farbstoff(e)"]
+      },
+      // ==========================
+      // CANDY SHOTS
+      // ==========================
+      {
+        id: "Bananasplit",
+        name: "Banana Split",
+        category: "Candy",
+        price: "3,50 €",
+        image: "Shots/Bananensplit.webp",
+        ingredients: ["Bananenlikör", "Amaretto", "Baileys"],
+        contents: ["alkoholhaltig", "Milch/Laktose"]
+      },
+      {
+        id: "Booltys-Call",
+        name: "Booty Call",
+        category: "Candy",
+        price: "3,50 €",
+        image: "Shots/BootyCall.webp",
+        ingredients: ["Bananenlikör", "Amaretto", "Peachlikör"],
+        contents: ["alkoholhaltig", "Säurungsmittel", "Farbstoff(e)"]
+      },
+      {
+        id: "Uups-i-did-it-again",
+        name: "Uups I did it again ...",
+        category: "Candy",
+        price: "3,50 €",
+        image: "Shots/Ididitagain.webp",
+        ingredients: ["Feigling Mango", "Pfeffi", "Limettensaft"],
+        contents: ["alkoholhaltig", "Säurungsmittel", "Farbstoff(e)"]
+      },
+      {
+        id: "Center-Shock",
+        name: "Center Shock",
+        category: "Candy",
+        price: "3,50 €",
+        image: "Shots/CenterShock.webp",
+        ingredients: ["Sourz Apfel", "Zitronensaft"],
+        contents: ["alkoholhaltig", "Säurungsmittel", "Farbstoff(e)"]
+      },
+      {
+        id: "Bubble-Gum",
+        name: "Bubble Gum",
+        category: "Candy",
+        price: "3,50 €",
+        image: "Shots/BubbleGum.webp",
+        ingredients: ["Blue Curacao", "Baileys", "Bananenlikör"],
+        contents: ["alkoholhaltig", "Farbstoff(e)", "Milch/Laktose"]
+      },
+      {
+        id: "Gummibaerchen",
+        name: "Gummibärchen",
+        category: "Candy",
+        price: "3,50 €",
+        image: "Shots/gummibaer.webp",
+        ingredients: ["Kirschlikör", "Bananenlikör", "Zitronensaft"],
+        contents: ["alkoholhaltig", "Säurungsmittel"]
+      },
+      {
+        id: "Nutella-Shot",
+        name: "Nutella Shot",
+        category: "Candy",
+        price: "3,50 €",
+        image: "Shots/nutella.webp",
+        ingredients: ["Haselnusslikör", "Cacaolikör", "Sahne"],
+        contents: ["alkoholhaltig", "Milch/Laktose"]
+      },
+      {
+        id: "Apfelstrudel",
+        name: "Apfelstrudel",
+        category: "Candy",
+        price: "3,50 €",
+        image: "Shots/Apfelstrudel.webp",
+        ingredients: ["Vodka", "Malibu", "Zitrone", "Zuckersirup", "Apfelsaft"],
+        contents: ["alkoholhaltig", "Säurungsmittel"]
+      },
+      {
+        id: "Omas-Liebling",
+        name: "Oma's Liebling",
+        category: "Candy",
+        price: "3,50 €",
+        image: "Shots/OmasLiebling.webp",
+        ingredients: ["Pfeffi", "Cacaolikör", "Sahne"],
+        contents: ["alkoholhaltig", "Farbstoff(e)", "Milch/Laktose"]
+      },
+      // ==========================
+      // ALPHA SHOTS
+      // ==========================
+      {
+        id: "Wrong-Hole",
+        name: "Wrong Hole",
+        category: "Alpha",
+        price: "3,50 €",
+        image: "Shots/wronghole.webp",
+        ingredients: ["Cacaolikör", "Baileys", "Grenadine"],
+        contents: ["alkoholhaltig", "Farbstoff(e)", "Milch/Laktose"]
+      },
+      {
+        id: "Nonchalant",
+        name: "Nonchalant",
+        category: "Alpha",
+        price: "3,50 €",
+        image: "Shots/Nonchalant.webp",
+        ingredients: ["Vodka", "Peachlikör", "Limettensaft"],
+        contents: ["alkoholhaltig", "Säurungsmittel"]
+      },
+      {
+        id: "H2O-Ploetzlich-Meerjungfrau",
+        name: "H2O Plötzlich Meerjungfrau",
+        category: "Alpha",
+        price: "3,50 €",
+        image: "Shots/H2o.webp",
+        ingredients: ["Blue Curacao", "Vodka", "Sambuca", "Baileys"],
+        contents: ["alkoholhaltig", "Farbstoff(e)", "Milch/Laktose"]
+      },
+      {
+        id: "Im-blue",
+        name: "I'm blue",
+        category: "Alpha",
+        price: "3,50 €",
+        image: "Shots/ImBlue.webp",
+        ingredients: ["Vodka", "Peachlikör", "Blue Curacao"],
+        contents: ["alkoholhaltig", "Farbstoff(e)"]
+      },
+      {
+        id: "Wild-River",
+        name: "Wild River",
+        category: "Alpha",
+        price: "3,50 €",
+        image: "Shots/wildriver.webp",
+        ingredients: ["Melonenlikör", "Baileys", "Bacardi Spice"],
+        contents: ["alkoholhaltig", "Farbstoff(e)", "Milch/Laktose"]
+      },
+      {
+        id: "Der-Zerstoerer",
+        name: "Der Zerstörer",
+        category: "Alpha",
+        price: "3,50 €",
+        image: "Shots/zerstoerer.webp",
+        ingredients: ["Vodka", "Jägermeister", "Energy"],
+        contents: ["alkoholhaltig", "Koffein", "Farbstoff(e)"]
+      },
+      {
+        id: "99-Luftballons",
+        name: "99 Luftballons",
+        category: "Alpha",
+        price: "3,50 €",
+        image: "Shots/99Luftballons.webp",
+        ingredients: ["Vodka", "Pfeffi"],
+        contents: ["alkoholhaltig", "Farbstoff(e)"]
+      },
+      {
+        id: "E-mc2",
+        name: "E=mc2",
+        category: "Alpha",
+        price: "3,50 €",
+        image: "Shots/Emc2.webp",
+        ingredients: ["Vodka", "Blue Curacao", "Zitronensaft"],
+        contents: ["alkoholhaltig", "Farbstoff(e)", "Säurungsmittel"]
+      },
+      {
+        id: "Anzeige",
+        name: "Anzeige ist raus!",
+        category: "Alpha",
+        price: "3,50 €",
+        image: "Shots/anzeige ist raus.webp",
+        ingredients: ["Vodka", "Blue Curacao", "Zitronensaft"],
+        contents: ["alkoholhaltig", "Farbstoff(e)", "Säurungsmittel"]
+      }
+    ];
+
+    const list = document.getElementById("shotList");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const randomBtn = document.getElementById("randomShotBtn");
+    const modal = document.getElementById("shotModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalActions = document.getElementById("modalActions");
+    const modalClose = document.getElementById("modalClose");
+    const modalOpenShot = document.getElementById("modalOpenShot");
+    const rouletteTrack = document.getElementById("rouletteTrack");
+    const rouletteWrapper = document.getElementById("rouletteWrapper");
+
+    let currentCategory = "ALL";
+    let selectedRandomShot = null;
+
+    function renderShots() {
+      list.innerHTML = "";
+
+      const visibleShots = currentCategory === "ALL"
+        ? shots
+        : shots.filter(shot => shot.category === currentCategory);
+
+      visibleShots.forEach(shot => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.dataset.id = shot.id;
+        card.dataset.category = shot.category;
+
+        card.innerHTML = `
+          <button class="card-toggle" type="button" aria-expanded="false">
+            <img class="shot-image" src="${shot.image}" alt="${shot.name}" loading="lazy" />
+
+            <div class="card-body">
+              <div class="card-title-row">
+                <h3 class="card-title">${shot.name}</h3>
+                <div class="price">${shot.price}</div>
+              </div>
+            </div>
+          </button>
+
+          <div class="card-panel">
+            <div class="panel-box">
+              <h4>Inhalt</h4>
+              <ul class="ingredients">
+                ${shot.ingredients.map(item => `<li>${item}</li>`).join("")}
+              </ul>
+              
+              <div class="chips">
+                ${shot.contents.map(item => `<span class="chip">${item}</span>`).join("")}
+              </div>
+            </div>
+          </div>
+        `;
+
+        const toggle = card.querySelector(".card-toggle");
+
+        toggle.addEventListener("click", () => {
+          const isOpen = card.classList.toggle("open");
+          toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+
+        list.appendChild(card);
+      });
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        filterButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        currentCategory = button.dataset.category;
+        renderShots();
+      });
+    });
+
+    randomBtn.addEventListener("click", () => {
+      const pool = currentCategory === "ALL"
+        ? shots
+        : shots.filter(shot => shot.category === currentCategory);
+
+      if (pool.length === 0) return;
+
+      // 1. Modal anzeigen, Setup vorbereiten
+      modalTitle.style.display = "none";
+      modalActions.style.display = "none";
+      rouletteWrapper.style.display = "block";
+      
+      // Track zurücksetzen (sofort ohne Transition)
+      rouletteTrack.style.transition = "none";
+      rouletteTrack.style.webkitTransition = "none";
+      rouletteTrack.style.transform = "translateX(0px)";
+      rouletteTrack.style.webkitTransform = "translateX(0px)";
+      rouletteTrack.innerHTML = "";
+
+      // 2. Den echten Gewinner auslosen
+      selectedRandomShot = pool[Math.floor(Math.random() * pool.length)];
+
+      // 3. Track mit 40 Elementen füllen
+      const totalItems = 40;
+      const winnerIndex = 34; // Position des Gewinners
+
+      for (let i = 0; i < totalItems; i++) {
+        let shotForSlot = (i === winnerIndex) 
+          ? selectedRandomShot 
+          : pool[Math.floor(Math.random() * pool.length)];
+
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "roulette-item";
+        itemDiv.innerHTML = `
+          <img src="${shotForSlot.image}" alt="shot" loading="lazy" />
+          <span>${shotForSlot.name}</span>
+        `;
+        rouletteTrack.appendChild(itemDiv);
+      }
+
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+
+      // 4. Kurze Pause warten bis Modal im DOM gerendert ist (wichtig für Breiten-Berechnung auf Handys)
+      setTimeout(() => {
+        // Zwingt den Browser zum Rendern (Reflow)
+        void rouletteTrack.offsetWidth;
+
+        // Dynamische Breitenberechnung
+        const containerCenter = rouletteWrapper.offsetWidth / 2;
+        const firstItem = rouletteTrack.querySelector('.roulette-item');
+        const itemWidth = firstItem.offsetWidth; 
+        
+        // Offset berechnen
+        const itemOffset = (winnerIndex * itemWidth) + (itemWidth / 2);
+        const randomFuzz = Math.floor(Math.random() * (itemWidth * 0.4)) - (itemWidth * 0.2); 
+        const finalPosition = -(itemOffset - containerCenter) + randomFuzz;
+
+        // CS-Style Abbrems-Kurve starten
+        const transitionStyle = "transform 4.5s cubic-bezier(0.1, 0.7, 0.1, 1)";
+        rouletteTrack.style.webkitTransition = transitionStyle;
+        rouletteTrack.style.transition = transitionStyle;
+        
+        rouletteTrack.style.webkitTransform = `translateX(${finalPosition}px)`;
+        rouletteTrack.style.transform = `translateX(${finalPosition}px)`;
+
+        // 5. Nach Ablauf der Animation Buttons einblenden
+        setTimeout(() => {
+          modalTitle.textContent = selectedRandomShot.name;
+          modalTitle.style.display = "block";
+          modalActions.style.display = "grid";
+          
+          if(rouletteTrack.children[winnerIndex]) {
+            rouletteTrack.children[winnerIndex].classList.add("winner");
+          }
+        }, 4600);
+
+      }, 100);
+    });
+
+    modalClose.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", event => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    modalOpenShot.addEventListener("click", () => {
+      if (!selectedRandomShot) return;
+
+      closeModal();
+
+      currentCategory = "ALL";
+      filterButtons.forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.category === "ALL");
+      });
+
+      renderShots();
+
+      setTimeout(() => {
+        const card = document.querySelector(`[data-id="${selectedRandomShot.id}"]`);
+        if (!card) return;
+
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        card.classList.add("open");
+
+        const toggle = card.querySelector(".card-toggle");
+        if (toggle) {
+          toggle.setAttribute("aria-expanded", "true");
+        }
+      }, 50);
+    });
+
+    function closeModal() {
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+      
+      // Cleanup für den nächsten Klick
+      setTimeout(() => {
+        rouletteTrack.innerHTML = "";
+        modalTitle.style.display = "none";
+        modalActions.style.display = "none";
+      }, 300);
+    }
+
+    renderShots();
+  </script>
+</body>
+</html>
